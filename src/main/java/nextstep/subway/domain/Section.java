@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -45,7 +46,4 @@ public class Section {
 
         return new Section(line, upStation, downStation, distance);
     }
-
-    // line과 upStation이 동일한 Section은 존재할 수 없음
-    // public Section createSection
 }

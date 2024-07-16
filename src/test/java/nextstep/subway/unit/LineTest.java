@@ -7,6 +7,8 @@ import nextstep.subway.domain.Station;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class LineTest {
@@ -45,6 +47,12 @@ class LineTest {
         // given
         Sections 신분당선구간 = 신분당선.getSections();
         신분당선구간.addSections(새로운구간);
+
+        // when
+        List<Station> 신분당선전체역 = 신분당선구간.getStations();
+
+        // then
+        assertThat(신분당선전체역.size()).isEqualTo(2);
     }
 
     @Test
