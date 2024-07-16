@@ -46,6 +46,20 @@ class LineTest {
 
     @Test
     void removeSection() {
+        // given
+        Sections 신분당선구간 = 신분당선.getSections();
+        Section newSection = Section.createSection(
+                신분당선,
+                강남역,
+                신논현역,
+                1
+        );
+        신분당선구간.addSections(newSection);
 
+        // when
+        신분당선구간.deleteLastSection();
+
+        // then
+        assertThat(신분당선구간.size()).isEqualTo(0);
     }
 }

@@ -40,10 +40,10 @@ public class Sections {
     }
 
     public void deleteLastSection() {
-        if (sections.size() > 1) {
+        if (!sections.isEmpty()) {
             sections.remove(sections.size() - 1);
         } else {
-            throw new InvalidSectionException("지하철 구간은 최소 1개 이상이어야 합니다.");
+            throw new InvalidSectionException("삭제할 수 있는 지하철 구간이 없습니다.");
         }
     }
 
