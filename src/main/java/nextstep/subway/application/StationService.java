@@ -1,23 +1,21 @@
 package nextstep.subway.application;
 
-import nextstep.subway.infrastructure.StationRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import lombok.RequiredArgsConstructor;
 import nextstep.subway.domain.Station;
+import nextstep.subway.infrastructure.StationRepository;
 import nextstep.subway.presentation.StationRequest;
 import nextstep.subway.presentation.StationResponse;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Service
 public class StationService {
-    private StationRepository stationRepository;
-
-    public StationService(StationRepository stationRepository) {
-        this.stationRepository = stationRepository;
-    }
+    private final StationRepository stationRepository;
 
     @Transactional
     public StationResponse saveStation(StationRequest stationRequest) {

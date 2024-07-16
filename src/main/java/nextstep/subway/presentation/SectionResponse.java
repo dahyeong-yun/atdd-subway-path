@@ -1,41 +1,20 @@
 package nextstep.subway.presentation;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import nextstep.subway.domain.Section;
 
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SectionResponse {
+    @Getter
     private final Long lineId;
+    @Getter
     private final Long sectionId;
     private final Long upStationId;
+    @Getter
     private final Long downStationId;
     private final Integer distance;
-
-    private SectionResponse(Long lineId, Long sectionId, Long upStationId, Long downStationId, Integer distance) {
-        this.lineId = lineId;
-        this.sectionId = sectionId;
-        this.upStationId = upStationId;
-        this.downStationId = downStationId;
-        this.distance = distance;
-    }
-
-    public Long getSectionId() {
-        return sectionId;
-    }
-
-    public Long getLineId() {
-        return lineId;
-    }
-
-    public Long getUpStationId() {
-        return upStationId;
-    }
-
-    public Long getDownStationId() {
-        return downStationId;
-    }
-
-    public Integer getDistance() {
-        return distance;
-    }
 
     public static SectionResponse of(Section createdSection) {
         return new SectionResponse(

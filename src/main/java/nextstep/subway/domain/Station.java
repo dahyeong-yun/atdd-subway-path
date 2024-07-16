@@ -1,8 +1,14 @@
 package nextstep.subway.domain;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Entity
 public class Station {
     @Id
@@ -18,18 +24,7 @@ public class Station {
     @OneToMany(mappedBy = "downStation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Section> sectionAsDownStation;
 
-    protected Station() {
-    }
-
     public Station(String name) {
         this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
     }
 }

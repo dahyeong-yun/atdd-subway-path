@@ -1,7 +1,13 @@
 package nextstep.subway.domain;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Entity
 public class Section {
     @Id
@@ -31,32 +37,8 @@ public class Section {
         this.distance = distance;
     }
 
-    protected Section() {
-
-    }
-
     public static Section createSection(Line line, Station upStation, Station downStation, Integer distance) {
         return new Section(line, upStation, downStation, distance);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Line getLine() {
-        return line;
-    }
-
-    public Station getUpStation() {
-        return upStation;
-    }
-
-    public Station getDownStation() {
-        return downStation;
-    }
-
-    public Integer getDistance() {
-        return distance;
     }
 
     // line과 upStation이 동일한 Section은 존재할 수 없음

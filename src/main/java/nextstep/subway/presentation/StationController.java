@@ -1,22 +1,21 @@
 package nextstep.subway.presentation;
 
+import lombok.RequiredArgsConstructor;
+import nextstep.subway.application.StationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import nextstep.subway.application.StationService;
 
 import java.net.URI;
 import java.util.List;
 
+@RequiredArgsConstructor
 @RequestMapping("/stations")
 @RestController
 public class StationController {
-    private StationService stationService;
-
-    public StationController(StationService stationService) {
-        this.stationService = stationService;
-    }
+    private final StationService stationService;
 
     @PostMapping
+
     public ResponseEntity<StationResponse> createStation(@RequestBody StationRequest stationRequest) {
         StationResponse station = stationService.saveStation(stationRequest);
         return ResponseEntity.created(URI.create("/stations/" + station.getId())).body(station);

@@ -1,9 +1,6 @@
 package nextstep.subway.application;
 
-import nextstep.subway.infrastructure.SectionRepository;
-import nextstep.subway.infrastructure.StationRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import lombok.RequiredArgsConstructor;
 import nextstep.subway.domain.Line;
 import nextstep.subway.domain.Section;
 import nextstep.subway.domain.Sections;
@@ -11,22 +8,20 @@ import nextstep.subway.domain.Station;
 import nextstep.subway.exception.LineNotFoundException;
 import nextstep.subway.exception.StationNotFoundException;
 import nextstep.subway.infrastructure.LineRepository;
+import nextstep.subway.infrastructure.SectionRepository;
+import nextstep.subway.infrastructure.StationRepository;
 import nextstep.subway.presentation.SectionRequest;
 import nextstep.subway.presentation.SectionResponse;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@RequiredArgsConstructor
 @Transactional
+@Service
 public class SectionService {
-    private LineRepository lineRepository;
-    private SectionRepository sectionRepository;
-    private StationRepository stationRepository;
-
-
-    public SectionService(LineRepository lineRepository, SectionRepository sectionRepository, StationRepository stationRepository) {
-        this.lineRepository = lineRepository;
-        this.sectionRepository = sectionRepository;
-        this.stationRepository = stationRepository;
-    }
+    private final LineRepository lineRepository;
+    private final SectionRepository sectionRepository;
+    private final StationRepository stationRepository;
 
     public SectionResponse saveSection(Long lineId, SectionRequest sectionRequest) {
         Line line = lineRepository.findById(lineId)

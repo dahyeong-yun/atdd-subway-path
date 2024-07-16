@@ -1,9 +1,14 @@
 package nextstep.subway.domain;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import nextstep.subway.presentation.LineRequest;
 
 import javax.persistence.*;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Entity
 public class Line {
     @Id
@@ -18,10 +23,6 @@ public class Line {
 
     @Embedded
     private Sections sections = new Sections();
-
-    protected Line() {
-
-    }
 
     public Line(String name, String color) {
         this.name = name;
@@ -41,22 +42,6 @@ public class Line {
         sections.addSections(requestSection);
 
         return createdLine;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public Sections getSections() {
-        return sections;
     }
 
     public Station getUpStation() {

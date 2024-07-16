@@ -1,30 +1,27 @@
 package nextstep.subway.application;
 
-import nextstep.subway.infrastructure.StationRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import lombok.RequiredArgsConstructor;
 import nextstep.subway.domain.Line;
 import nextstep.subway.domain.Station;
 import nextstep.subway.exception.LineNotFoundException;
 import nextstep.subway.exception.StationNotFoundException;
 import nextstep.subway.infrastructure.LineRepository;
+import nextstep.subway.infrastructure.StationRepository;
 import nextstep.subway.presentation.LineRequest;
 import nextstep.subway.presentation.LineResponse;
 import nextstep.subway.presentation.LineUpdateRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Service
 public class LineService {
-    private LineRepository lineRepository;
-    private StationRepository stationRepository;
-
-    public LineService(LineRepository lineRepository, StationRepository stationRepository) {
-        this.lineRepository = lineRepository;
-        this.stationRepository = stationRepository;
-    }
+    private final LineRepository lineRepository;
+    private final StationRepository stationRepository;
 
     @Transactional
     public LineResponse saveLine(LineRequest lineRequest) {
@@ -68,3 +65,4 @@ public class LineService {
         lineRepository.delete(line);
     }
 }
+
