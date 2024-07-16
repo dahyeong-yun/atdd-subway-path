@@ -46,4 +46,8 @@ public class Sections {
             throw new InvalidSectionException("지하철 구간은 최소 1개 이상이어야 합니다.");
         }
     }
+
+    public int size() {
+        return sections.size();
+    }
 }

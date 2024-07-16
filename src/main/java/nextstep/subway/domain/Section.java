@@ -38,6 +38,11 @@ public class Section {
     }
 
     public static Section createSection(Line line, Station upStation, Station downStation, Integer distance) {
+        assert line != null;
+        assert upStation != null;
+        assert downStation != null;
+        assert distance > 0;
+
         return new Section(line, upStation, downStation, distance);
     }
 
