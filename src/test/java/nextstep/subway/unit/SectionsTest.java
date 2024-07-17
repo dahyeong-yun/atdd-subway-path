@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-class LineTest {
+class SectionsTest {
     private Station 강남역;
     private Station 신논현역;
     private Line 신분당선;
