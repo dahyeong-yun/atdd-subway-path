@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -28,8 +27,6 @@ public class Section {
     private Station downStation;
 
     private Integer distance;
-
-    private Integer sort;
 
     private Section(Line line, Station upStation, Station downStation, int distance) {
         this.line = line;
