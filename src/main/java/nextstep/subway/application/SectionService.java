@@ -23,9 +23,9 @@ public class SectionService {
     private final SectionRepository sectionRepository;
     private final StationRepository stationRepository;
 
-    public SectionResponse saveSection(Long lineId, SectionRequest sectionRequest) {
+    public SectionResponse addSection(Long lineId, SectionRequest sectionRequest) {
         Line line = lineRepository.findById(lineId)
-                .orElseThrow(() -> new LineNotFoundException(lineId)); // TODO 존재하지 않는 라인 예외 처리
+                .orElseThrow(() -> new LineNotFoundException(lineId));
 
         Station upStation = stationRepository.findById(sectionRequest.getUpStationId())
                 .orElseThrow(() -> new StationNotFoundException(sectionRequest.getUpStationId()));
