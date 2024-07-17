@@ -48,8 +48,8 @@ public class SectionAcceptanceTest {
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
-        assertThat(Long.valueOf(response.body().jsonPath().getString("lineId"))).isEqualTo(신분당선);
-        assertThat(Long.valueOf(response.body().jsonPath().getString("downStationId"))).isEqualTo(또다른역);
+        assertThat(response.body().jsonPath().getLong("lineId")).isEqualTo(신분당선);
+        assertThat(response.body().jsonPath().getLong("downStationId")).isEqualTo(또다른역);
 
     }
 
@@ -65,7 +65,7 @@ public class SectionAcceptanceTest {
         ExtractableResponse<Response> response = SectionSteps.createSection(신분당선, new SectionRequest(을지로4가역, 또다른역, 10));
 
         // when
-        Long id = Long.valueOf(response.body().jsonPath().getString("sectionId"));
+        Long id = response.body().jsonPath().getLong("sectionId");
         SectionSteps.deleteSection(신분당선, id);
         LineResponse findline = LineSteps.findByLineId(신분당선);
 
