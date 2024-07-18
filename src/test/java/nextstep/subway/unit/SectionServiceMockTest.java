@@ -3,14 +3,12 @@ package nextstep.subway.unit;
 import nextstep.subway.application.SectionService;
 import nextstep.subway.domain.Line;
 import nextstep.subway.domain.Section;
-import nextstep.subway.domain.Sections;
 import nextstep.subway.domain.Station;
 import nextstep.subway.infrastructure.LineRepository;
 import nextstep.subway.infrastructure.SectionRepository;
 import nextstep.subway.infrastructure.StationRepository;
 import nextstep.subway.presentation.LineRequest;
 import nextstep.subway.presentation.SectionRequest;
-import nextstep.subway.presentation.SectionResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -53,7 +51,7 @@ public class SectionServiceMockTest {
                 신논현역_ID,
                 10
         );
-        Line 신분당선 = Line.createLine(강남역, 신논현역,  lineRequest);
+        Line 신분당선 = Line.createLine(강남역, 신논현역, lineRequest);
 
         when(lineRepository.findById(신분당선_ID)).thenReturn(Optional.of(신분당선));
         when(stationRepository.findById(신논현역_ID)).thenReturn(Optional.of(신논현역));
@@ -61,8 +59,7 @@ public class SectionServiceMockTest {
         when(sectionRepository.save(any(Section.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // when
-        SectionResponse sectionResponse
-                = sectionService.addSection(신분당선_ID, new SectionRequest(신논현역_ID, 신사역_ID, 5));
+        sectionService.addSection(신분당선_ID, new SectionRequest(신논현역_ID, 신사역_ID, 5));
 
         // then
         assertThat(신분당선.getSections().size()).isEqualTo(2);

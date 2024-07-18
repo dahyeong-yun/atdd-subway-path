@@ -44,14 +44,6 @@ public class Line {
         return createdLine;
     }
 
-    public Station getUpStation() {
-        return sections.getUpStation();
-    }
-
-    public Station getDownStation() {
-        return sections.getDownStation();
-    }
-
     public void changeName(String name) {
         this.name = name;
     }
