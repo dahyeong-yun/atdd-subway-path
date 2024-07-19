@@ -39,7 +39,6 @@ public class Section {
         assert line != null;
         assert upStation != null;
         assert downStation != null;
-        assert distance > 0;
 
         return new Section(line, upStation, downStation, distance);
     }

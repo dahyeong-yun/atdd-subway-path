@@ -73,4 +73,6 @@ public class SectionAcceptanceTest {
         assertThat(findline.getStations().get(0).getName()).isEqualTo("강남역");
         assertThat(findline.getStations().get(1).getName()).isEqualTo("을지로4가역");
     }
+
+    // 기존에 구간이 있는 상태에서 새로운 구간을 추가할 수 있다.
 }
