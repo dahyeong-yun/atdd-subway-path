@@ -91,12 +91,12 @@ public class LineAcceptanceTest {
         Long fifthLineId = Long.valueOf(response.body().jsonPath().getString("id"));
 
         // when
-        LineResponse findline = LineSteps.findByLineId(fifthLineId);
+        LineResponse findLine = LineSteps.findByLineId(fifthLineId);
 
         // then
-        assertThat(findline.getName()).isEqualTo("5호선");
-        assertThat(findline.getColor()).isEqualTo("bg-purple-400");
-        assertThat(findline.getStations().size()).isEqualTo(2);
+        assertThat(findLine.getName()).isEqualTo("5호선");
+        assertThat(findLine.getColor()).isEqualTo("bg-purple-400");
+        assertThat(findLine.getStations().size()).isEqualTo(2);
     }
 
     /**
@@ -113,12 +113,12 @@ public class LineAcceptanceTest {
 
         // when
         LineSteps.updateLine(sinbundangLineId, "신분당선2호선", "bg-red-700");
-        LineResponse findline = LineSteps.findByLineId(sinbundangLineId);
+        LineResponse findLine = LineSteps.findByLineId(sinbundangLineId);
 
         // then
-        assertThat(findline.getName()).isEqualTo("신분당선2호선");
-        assertThat(findline.getColor()).isEqualTo("bg-red-700");
-        assertThat(findline.getStations().size()).isEqualTo(2);
+        assertThat(findLine.getName()).isEqualTo("신분당선2호선");
+        assertThat(findLine.getColor()).isEqualTo("bg-red-700");
+        assertThat(findLine.getStations().size()).isEqualTo(2);
     }
 
 

@@ -70,11 +70,11 @@ public class SectionAcceptanceTest {
         // when
         Long id = response.body().jsonPath().getLong("sectionId");
         SectionSteps.deleteSection(신분당선_ID, id);
-        LineResponse findline = LineSteps.findByLineId(신분당선_ID);
+        LineResponse findLine = LineSteps.findByLineId(신분당선_ID);
 
         // then
-        assertThat(findline.getStations().get(0).getName()).isEqualTo("강남역");
-        assertThat(findline.getStations().get(1).getName()).isEqualTo("을지로4가역");
+        assertThat(findLine.getStations().get(0).getName()).isEqualTo("강남역");
+        assertThat(findLine.getStations().get(1).getName()).isEqualTo("을지로4가역");
     }
 
     /**
