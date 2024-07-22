@@ -79,7 +79,7 @@ public class SectionAcceptanceTest {
 
     /**
      * Given: 특장 지하철 구간 정보가 등록되어 있고,
-     * When: 관리자가 구간을 추가제하면,
+     * When: 관리자가 구간을 추가하면,
      * Then: 해당 구간이 연결된다.
      */
     @Test
