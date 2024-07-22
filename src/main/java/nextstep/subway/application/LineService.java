@@ -54,8 +54,6 @@ public class LineService {
                 .orElseThrow(() -> new LineNotFoundException(id));
         line.changeName(lineUpdateRequest.getName());
         line.changeColor(lineUpdateRequest.getColor());
-
-        lineRepository.save(line);
     }
 
     @Transactional
