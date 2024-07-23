@@ -10,8 +10,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static nextstep.subway.acceptance.StationSteps.findAllStationNames;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("지하철역 관련 기능")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -33,10 +33,8 @@ public class StationAcceptanceTest {
 
         // then
         List<String> stationNames = StationSteps.findAllStationNames();
-
         assertThat(stationNames).containsAnyOf("강남역");
     }
-
 
     /**
      * Given 2개의 지하철역을 생성하고
@@ -48,17 +46,15 @@ public class StationAcceptanceTest {
     void retrieveStation() {
         // given
         StationSteps.createStation("강남역");
-        StationSteps.createStation("을지로4가역");
+        StationSteps.createStation("신논현역");
 
         // when
         List<String> stationNames = findAllStationNames();
 
         // then
-        assertThat(stationNames)
-                .contains("강남역", "을지로4가역");
+        assertThat(stationNames).contains("강남역", "신논현역");
         assertThat(stationNames.size()).isEqualTo(2);
     }
-
 
     /**
      * Given 지하철역을 생성하고
@@ -69,7 +65,7 @@ public class StationAcceptanceTest {
     @Test
     void deleteStation() {
         // given
-        ExtractableResponse<Response> response = StationSteps.createStation("을지로4가역");
+        ExtractableResponse<Response> response = StationSteps.createStation("신논현역");
         String createdStationId = response.body().jsonPath().getString("id");
 
         // when
@@ -77,7 +73,7 @@ public class StationAcceptanceTest {
         List<String> stationNames = findAllStationNames();
 
         // then
-        assertThat(stationNames).doesNotContain("을지로4가역");
+        assertThat(stationNames).doesNotContain("신논현역");
         assertThat(stationNames.size()).isEqualTo(0);
     }
 }
