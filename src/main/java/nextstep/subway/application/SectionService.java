@@ -31,14 +31,13 @@ public class SectionService {
         Station downStation = stationRepository.findById(sectionRequest.getDownStationId())
                 .orElseThrow(() -> new StationNotFoundException(sectionRequest.getDownStationId()));
 
-        Sections sections = line.getSections();
         Section requestSection = Section.createSection(
                 line,
                 upStation,
                 downStation,
                 sectionRequest.getDistance()
         );
-        sections.addSection(requestSection);
+        line.addSection(requestSection);
 
         Section createdSection = sectionRepository.save(requestSection);
 

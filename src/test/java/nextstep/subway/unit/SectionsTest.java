@@ -44,9 +44,7 @@ class SectionsTest {
     @DisplayName("지하철 구간 연결 추가")
     void addSectionWithConnectedUpStation() {
         // given
-        Sections 신분당선구간 = 신분당선.getSections();
-        신분당선구간.addSection(새로운구간);
-
+        신분당선.addSection(새로운구간);
         Section 또다른구간 = Section.createSection(
                 신분당선,
                 신논현역,
@@ -55,7 +53,8 @@ class SectionsTest {
         );
 
         // when
-        신분당선구간.addSection(또다른구간);
+        신분당선.addSection(또다른구간);
+        Sections 신분당선구간 = 신분당선.getSections();
 
         // then
         assertThat(신분당선구간.size()).isEqualTo(2);
@@ -68,7 +67,7 @@ class SectionsTest {
         Sections 신분당선구간 = 신분당선.getSections();
 
         // when
-        신분당선구간.addSection(새로운구간);
+        신분당선.addSection(새로운구간);
 
         // then
         assertThat(신분당선구간.size()).isEqualTo(1);
@@ -79,7 +78,7 @@ class SectionsTest {
     void addSectionInMiddle() {
         // given
         Sections 신분당선구간 = 신분당선.getSections();
-        신분당선구간.addSection(새로운구간);
+        신분당선.addSection(새로운구간);
 
         Section 중간구간 = Section.createSection(
                 신분당선,
@@ -89,7 +88,7 @@ class SectionsTest {
         );
 
         // when
-        신분당선구간.addSection(중간구간);
+        신분당선.addSection(중간구간);
 
         // then
         assertThat(신분당선구간.size()).isEqualTo(2);
@@ -101,8 +100,7 @@ class SectionsTest {
     @DisplayName("지하철 연결되지 않은 구간 추가 시도 테스트")
     void addSectionWithNoConnectedStations() {
         // given
-        Sections 신분당선구간 = 신분당선.getSections();
-        신분당선구간.addSection(새로운구간);
+        신분당선.addSection(새로운구간);
 
         Section 연결되지않은구간 = Section.createSection(
                 신분당선,
@@ -112,7 +110,7 @@ class SectionsTest {
         );
 
         // when & then
-        assertThatThrownBy(() -> 신분당선구간.addSection(연결되지않은구간))
+        assertThatThrownBy(() -> 신분당선.addSection(연결되지않은구간))
                 .isInstanceOf(InvalidSectionException.class)
                 .hasMessage("새로운 구간의 양쪽 역 모두 기존 노선에 연결되어 있지 않습니다.");
     }
@@ -122,7 +120,7 @@ class SectionsTest {
     void addSectionWithBothConnectedStations() {
         // given
         Sections 신분당선구간 = 신분당선.getSections();
-        신분당선구간.addSection(새로운구간);
+        신분당선.addSection(새로운구간);
 
         Section 또다른구간 = Section.createSection(
                 신분당선,
@@ -132,7 +130,7 @@ class SectionsTest {
         );
 
         // when & then
-        assertThatThrownBy(() -> 신분당선구간.addSection(또다른구간))
+        assertThatThrownBy(() -> 신분당선.addSection(또다른구간))
                 .isInstanceOf(InvalidSectionException.class)
                 .hasMessage("새로운 구간이 기존 구간을 완전히 포함합니다.");
     }
@@ -147,10 +145,9 @@ class SectionsTest {
                 신논현역,
                 0
         );
-        Sections sections = 신분당선.getSections();
         // when & then
         assertThatThrownBy(() -> {
-            sections.addSection(zeroDistanceSection);
+            신분당선.addSection(zeroDistanceSection);
         })
                 .isInstanceOf(InvalidSectionException.class)
                 .hasMessage("구간 거리는 0보다 커야 합니다.");
@@ -160,8 +157,7 @@ class SectionsTest {
     @DisplayName("유효하지 않은 거리의 구간 추가 시도")
     void addSectionWithInvalidDistance() {
         // given
-        Sections 신분당선구간 = 신분당선.getSections();
-        신분당선구간.addSection(새로운구간);
+        신분당선.addSection(새로운구간);
 
         Section invalidSection = Section.createSection(
                 신분당선,
@@ -172,7 +168,7 @@ class SectionsTest {
 
         // when & then
         assertThatThrownBy(() -> {
-            신분당선구간.addSection(invalidSection);
+            신분당선.addSection(invalidSection);
         })
                 .isInstanceOf(InvalidSectionException.class)
                 .hasMessage("기존 구간의 길이가 새 구간보다 길어야 합니다.");
@@ -183,7 +179,7 @@ class SectionsTest {
     void getStations() {
         // given
         Sections 신분당선구간 = 신분당선.getSections();
-        신분당선구간.addSection(새로운구간);
+        신분당선.addSection(새로운구간);
 
         // when
         List<Station> 신분당선전체역 = 신분당선구간.getStations();
@@ -197,7 +193,7 @@ class SectionsTest {
     void removeSection() {
         // given
         Sections 신분당선구간 = 신분당선.getSections();
-        신분당선구간.addSection(새로운구간);
+        신분당선.addSection(새로운구간);
 
         // when
         신분당선구간.deleteLastSection();

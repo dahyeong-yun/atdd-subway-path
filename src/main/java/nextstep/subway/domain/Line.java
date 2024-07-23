@@ -32,16 +32,19 @@ public class Line {
     public static Line createLine(Station upStation, Station downStation, LineRequest lineRequest) {
         Line createdLine = new Line(lineRequest.getName(), lineRequest.getColor());
 
-        Sections sections = createdLine.getSections();
-        Section requestSection = Section.createSection(
+        createdLine.addSection(Section.createSection(
                 createdLine,
                 upStation,
                 downStation,
                 lineRequest.getDistance()
-        );
-        sections.addSection(requestSection);
+        ));
 
         return createdLine;
+    }
+
+    public void addSection(Section section) {
+        Sections sections = this.getSections();
+        sections.addSection(section);
     }
 
     public void changeName(String name) {

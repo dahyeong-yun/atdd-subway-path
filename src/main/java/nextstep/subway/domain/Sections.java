@@ -15,7 +15,7 @@ public class Sections {
     @OneToMany(mappedBy = "line", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Section> sections = new ArrayList<>();
 
-    public void addSection(Section newSection) {
+    void addSection(Section newSection) {
         validateSectionDistance(newSection);
 
         if (sections.isEmpty()) {
