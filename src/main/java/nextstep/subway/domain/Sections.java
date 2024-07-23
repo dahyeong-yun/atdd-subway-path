@@ -33,9 +33,9 @@ public class Sections {
 
         if (isUpStationConnected) {
             addSectionWithConnectedUpStation(newSection);
-        } else {
-            addSectionWithConnectedDownStation(newSection);
+            return;
         }
+        addSectionWithConnectedDownStation(newSection);
     }
 
     public void deleteLastSection() {
