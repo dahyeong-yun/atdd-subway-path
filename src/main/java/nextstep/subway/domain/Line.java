@@ -39,7 +39,7 @@ public class Line {
                 downStation,
                 lineRequest.getDistance()
         );
-        sections.addSections(requestSection);
+        sections.addSection(requestSection);
 
         return createdLine;
     }

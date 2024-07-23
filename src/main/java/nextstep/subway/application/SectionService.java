@@ -26,7 +26,6 @@ public class SectionService {
     public SectionResponse addSection(Long lineId, SectionRequest sectionRequest) {
         Line line = lineRepository.findById(lineId)
                 .orElseThrow(() -> new LineNotFoundException(lineId));
-
         Station upStation = stationRepository.findById(sectionRequest.getUpStationId())
                 .orElseThrow(() -> new StationNotFoundException(sectionRequest.getUpStationId()));
         Station downStation = stationRepository.findById(sectionRequest.getDownStationId())
@@ -39,7 +38,7 @@ public class SectionService {
                 downStation,
                 sectionRequest.getDistance()
         );
-        sections.addSections(requestSection);
+        sections.addSection(requestSection);
 
         Section createdSection = sectionRepository.save(requestSection);
 
