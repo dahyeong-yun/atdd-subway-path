@@ -16,13 +16,13 @@ public class SectionResponse {
     private final Long downStationId;
     private final Integer distance;
 
-    public static SectionResponse of(Section createdSection) {
+    public static SectionResponse of(Section section) {
         return new SectionResponse(
-                createdSection.getLine().getId(),
-                createdSection.getId(),
-                createdSection.getUpStation().getId(),
-                createdSection.getDownStation().getId(),
-                createdSection.getDistance()
+                section.getLine().getId(),
+                section.getId(),
+                section.getUpStation().getId(),
+                section.getDownStation().getId(),
+                section.getDistance()
         );
     }
 
