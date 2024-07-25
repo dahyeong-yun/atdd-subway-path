@@ -100,29 +100,21 @@ public class Sections {
 
     private void addSectionWithConnectedUpStation(Section newSection) {
         Station newUpStation = newSection.getUpStation();
-
-        for (Section section : sections) {
-            if (section.getUpStation().equals(newUpStation)) {
-                updateSection(section, newSection, true);
-                return;
-            }
-        }
-
-        // 끝에 추가되는 경우
-        sections.add(newSection);
+        sections.stream()
+                .filter((section) -> section.getUpStation().equals(newUpStation))
+                .findFirst()
+                .ifPresentOrElse(
+                        (section) -> updateSection(section, newSection, true),
+                        () -> sections.add(newSection));
     }
 
     private void addSectionWithConnectedDownStation(Section newSection) {
         Station newDownStation = newSection.getDownStation();
-
-        for (Section section : sections) {
-            if (section.getDownStation().equals(newDownStation)) {
-                updateSection(section, newSection, false);
-                return;
-            }
-        }
-
-        // 끝에 추가되는 경우 (기존 로직 유지)
-        sections.add(0, newSection);
+        sections.stream()
+                .filter((section) -> section.getDownStation().equals(newDownStation))
+                .findFirst()
+                .ifPresentOrElse(
+                        (section) -> updateSection(section, newSection, false),
+                        () -> sections.add(0, newSection));
     }
 }
