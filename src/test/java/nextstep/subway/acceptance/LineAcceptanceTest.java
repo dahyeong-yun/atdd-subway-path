@@ -2,19 +2,19 @@ package nextstep.subway.acceptance;
 
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.assertj.core.api.Assertions;
+import nextstep.subway.presentation.LineRequest;
+import nextstep.subway.presentation.LineResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
-import nextstep.subway.presentation.LineRequest;
-import nextstep.subway.presentation.LineResponse;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("지하철 노선 관련 기능")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -49,7 +49,7 @@ public class LineAcceptanceTest {
 
         // then
         List<String> allLineNames = LineSteps.findAllLineNames();
-        Assertions.assertThat(allLineNames).containsAnyOf("신분당선");
+        assertThat(allLineNames).containsAnyOf("신분당선");
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
 
@@ -71,7 +71,7 @@ public class LineAcceptanceTest {
         List<String> allLineNames = LineSteps.findAllLineNames();
 
         // then
-        Assertions.assertThat(allLineNames).contains("신분당선", "5호선");
+        assertThat(allLineNames).contains("신분당선", "5호선");
     }
 
     /**
@@ -138,7 +138,7 @@ public class LineAcceptanceTest {
         List<String> allLineNames = LineSteps.findAllLineNames();
 
         // then
-        Assertions.assertThat(allLineNames).doesNotContain("신분당선");
-        Assertions.assertThat(allLineNames.size()).isEqualTo(0);
+        assertThat(allLineNames).doesNotContain("신분당선");
+        assertThat(allLineNames.size()).isEqualTo(0);
     }
 }
