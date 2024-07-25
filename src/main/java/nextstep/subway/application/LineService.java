@@ -43,24 +43,26 @@ public class LineService {
     }
 
     public LineResponse findLineById(Long id) {
-        Line line = lineRepository.findById(id)
-                .orElseThrow(() -> new LineNotFoundException(id));
+        Line line = findLineByIdOrThrow(id);
         return LineResponse.of(line);
     }
 
     @Transactional
     public void updateLine(Long id, LineUpdateRequest lineUpdateRequest) {
-        Line line = lineRepository.findById(id)
-                .orElseThrow(() -> new LineNotFoundException(id));
+        Line line = findLineByIdOrThrow(id);
         line.changeName(lineUpdateRequest.getName());
         line.changeColor(lineUpdateRequest.getColor());
     }
 
     @Transactional
     public void deleteLine(Long id) {
-        Line line = lineRepository.findById(id)
-                .orElseThrow(() -> new LineNotFoundException(id));
+        Line line = findLineByIdOrThrow(id);
         lineRepository.delete(line);
+    }
+
+    private Line findLineByIdOrThrow(Long id) {
+        return lineRepository.findById(id)
+                .orElseThrow(() -> new LineNotFoundException(id));
     }
 }
 
