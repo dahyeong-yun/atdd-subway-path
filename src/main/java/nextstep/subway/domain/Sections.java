@@ -41,9 +41,9 @@ public class Sections {
     public void deleteLastSection() {
         if (!sections.isEmpty()) {
             sections.remove(sections.size() - 1);
-        } else {
-            throw new InvalidSectionException("삭제할 수 있는 지하철 구간이 없습니다.");
+            return;
         }
+        throw new InvalidSectionException("삭제할 수 있는 지하철 구간이 없습니다.");
     }
 
     public int size() {
@@ -83,22 +83,15 @@ public class Sections {
             throw new InvalidSectionException("기존 구간의 길이가 새 구간보다 길어야 합니다.");
         }
 
-        Section updatedSection;
-        if (isUpStationConnected) {
-            updatedSection = Section.createSection(
-                    existingSection.getLine(),
-                    newDownStation,
-                    existingSection.getDownStation(),
-                    existingSection.getDistance() - newDistance
-            );
-        } else {
-            updatedSection = Section.createSection(
-                    existingSection.getLine(),
-                    existingSection.getUpStation(),
-                    newUpStation,
-                    existingSection.getDistance() - newDistance
-            );
-        }
+        Station updatedUpStation = isUpStationConnected ? newDownStation : existingSection.getUpStation();
+        Station updatedDownStation = isUpStationConnected ? existingSection.getDownStation() : newUpStation;
+
+        Section updatedSection = Section.createSection(
+                existingSection.getLine(),
+                updatedUpStation,
+                updatedDownStation,
+                existingSection.getDistance() - newDistance
+        );
 
         sections.add(newSection);
         sections.add(updatedSection);

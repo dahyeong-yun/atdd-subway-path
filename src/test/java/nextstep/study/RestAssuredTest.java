@@ -15,6 +15,6 @@ public class RestAssuredTest {
                 .when()
                     .get("https://google.com")
                 .then()
-                    .statusCode(HttpStatus.CREATED.value());
+                    .statusCode(HttpStatus.OK.value());
     }
 }
