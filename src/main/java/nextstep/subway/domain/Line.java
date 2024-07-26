@@ -43,8 +43,7 @@ public class Line {
     }
 
     public void addSection(Section section) {
-        Sections sections = this.getSections();
-        sections.addSection(section);
+        this.sections.addSection(section);
     }
 
     public void changeName(String name) {
