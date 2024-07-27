@@ -46,6 +46,10 @@ public class Line {
         this.sections.addSection(section);
     }
 
+    public void deleteStation(Station station) {
+        this.sections.deleteStation(station);
+    }
+
     public void changeName(String name) {
         this.name = name;
     }

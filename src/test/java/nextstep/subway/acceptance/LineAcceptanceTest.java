@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 

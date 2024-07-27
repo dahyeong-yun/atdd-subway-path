@@ -60,6 +60,15 @@ public class LineService {
         lineRepository.delete(line);
     }
 
+    @Transactional
+    public void deleteStation(Long lineId, Long stationId) {
+        Line line = findLineByIdOrThrow(lineId);
+        Station station = stationRepository.findById(stationId)
+                .orElseThrow(() -> new StationNotFoundException(stationId));
+
+        line.deleteStation(station);
+    }
+
     private Line findLineByIdOrThrow(Long id) {
         return lineRepository.findById(id)
                 .orElseThrow(() -> new LineNotFoundException(id));

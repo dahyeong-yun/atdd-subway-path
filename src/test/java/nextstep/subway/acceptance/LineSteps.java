@@ -52,4 +52,10 @@ public class LineSteps {
                 .when().delete("/lines/" + lineId)
                 .then().log().all();
     }
+
+    static void deleteStation(Long lineId, Long stationId) {
+        RestAssured.given().log().all()
+                .when().delete("/lines/" + lineId + "/stations/"+ stationId)
+                .then().log().all();
+    }
 }

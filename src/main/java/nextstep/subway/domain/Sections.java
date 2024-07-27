@@ -26,6 +26,14 @@ public class Sections {
                 .collect(Collectors.toList());
     }
 
+    public void deleteLastSection() {
+        if (!sections.isEmpty()) {
+            sections.remove(sections.size() - 1);
+            return;
+        }
+        throw new InvalidSectionException("삭제할 수 있는 지하철 구간이 없습니다.");
+    }
+
     void addSection(Section newSection) {
         validateSectionDistance(newSection);
 
@@ -49,12 +57,29 @@ public class Sections {
         addSectionWithConnectedDownStation(newSection);
     }
 
-    public void deleteLastSection() {
-        if (!sections.isEmpty()) {
-            sections.remove(sections.size() - 1);
+    void deleteStation(Station station) {
+        List<Station> stations = this.getStations();
+        if (!stations.contains(station)) {
+            throw new InvalidSectionException("노선에 포함되지 않은 역을 제거할 수 없습니다.");
+        }
+        Section previousSection = findSectionByDownStation(station);
+        Section nextSection = findSectionByUpStation(station);
+
+        if (previousSection == null && nextSection == null) {
+            throw new InvalidSectionException("삭제할 수 있는 지하철 구간이 없습니다.");
+        }
+
+        if (previousSection != null && nextSection == null) {
+            sections.remove(previousSection);
             return;
         }
-        throw new InvalidSectionException("삭제할 수 있는 지하철 구간이 없습니다.");
+
+        if (previousSection == null) {
+            sections.remove(nextSection);
+            return;
+        }
+
+        mergeSections(previousSection, nextSection);
     }
 
     private void validateStationConnections(boolean isUpStationConnected, boolean isDownStationConnected) {
@@ -116,5 +141,31 @@ public class Sections {
                 .ifPresentOrElse(
                         (section) -> updateSection(section, newSection, false),
                         () -> sections.add(0, newSection));
+    }
+
+    private void mergeSections(Section previousSection, Section nextSection) {
+        Section mergedSection = Section.createSection(
+                previousSection.getLine(),
+                previousSection.getUpStation(),
+                nextSection.getDownStation(),
+                previousSection.getDistance() + nextSection.getDistance()
+        );
+        sections.remove(previousSection);
+        sections.remove(nextSection);
+        sections.add(mergedSection);
+    }
+
+    private Section findSectionByDownStation(Station station) {
+        return sections.stream()
+                .filter(section -> section.getDownStation().equals(station))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private Section findSectionByUpStation(Station station) {
+        return sections.stream()
+                .filter(section -> section.getUpStation().equals(station))
+                .findFirst()
+                .orElse(null);
     }
 }

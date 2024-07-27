@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class LineTest {
     private Station 강남역;
@@ -119,9 +119,7 @@ class LineTest {
     @DisplayName("지하철 양쪽 역이 모두 연결된 구간 추가 시도 테스트")
     void addSectionWithBothConnectedStations() {
         // given
-        Sections 신분당선구간 = 신분당선.getSections();
         신분당선.addSection(새로운구간);
-
         Section 또다른구간 = Section.createSection(
                 신분당선,
                 강남역,
@@ -158,7 +156,6 @@ class LineTest {
     void addSectionWithInvalidDistance() {
         // given
         신분당선.addSection(새로운구간);
-
         Section invalidSection = Section.createSection(
                 신분당선,
                 강남역,
@@ -178,8 +175,8 @@ class LineTest {
     @DisplayName("지하철 구간 전체 역 조회")
     void getStations() {
         // given
-        Sections 신분당선구간 = 신분당선.getSections();
         신분당선.addSection(새로운구간);
+        Sections 신분당선구간 = 신분당선.getSections();
 
         // when
         List<Station> 신분당선전체역 = 신분당선구간.getStations();
@@ -200,5 +197,65 @@ class LineTest {
 
         // then
         assertThat(신분당선구간.size()).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("지하철 노선의 중간역 삭제")
+    void deleteMiddleStation() {
+        // given
+        신분당선.addSection(새로운구간);
+        신분당선.addSection(Section.createSection(신분당선, 신논현역, 신사역, 2));
+
+        // when
+        신분당선.deleteStation(신논현역);
+
+        // then
+        Sections 신분당선구간 = 신분당선.getSections();
+        assertThat(신분당선구간.size()).isEqualTo(1);
+        assertThat(신분당선구간.getStations()).containsExactly(강남역, 신사역);
+    }
+
+    @Test
+    @DisplayName("지하철 노선의 첫 역 삭제")
+    void deleteFirstStation() {
+        // given
+        신분당선.addSection(새로운구간);
+        신분당선.addSection(Section.createSection(신분당선, 신논현역, 신사역, 2));
+
+        // when
+        신분당선.deleteStation(강남역);
+
+        // then
+        Sections 신분당선구간 = 신분당선.getSections();
+        assertThat(신분당선구간.size()).isEqualTo(1);
+        assertThat(신분당선구간.getStations()).containsExactly(신논현역, 신사역);
+    }
+
+    @Test
+    @DisplayName("지하철 노선의 마지막 역 삭제")
+    void deleteLastStation() {
+        // given
+        신분당선.addSection(새로운구간);
+        신분당선.addSection(Section.createSection(신분당선, 신논현역, 신사역, 2));
+
+        // when
+        신분당선.deleteStation(신사역);
+
+        // then
+        Sections 신분당선구간 = 신분당선.getSections();
+        assertThat(신분당선구간.size()).isEqualTo(1);
+        assertThat(신분당선구간.getStations()).containsExactly(강남역, 신논현역);
+    }
+
+    @Test
+    @DisplayName("지하철 노선에 없는 역 삭제 시도")
+    void deleteNonExistentStation() {
+        // given
+        신분당선.addSection(새로운구간);
+
+        // when & then
+        assertThatThrownBy(() -> 신분당선.deleteStation(판교역))
+                .isInstanceOf(InvalidSectionException.class)
+                .hasMessage("노선에 포함되지 않은 역을 제거할 수 없습니다.");
     }
 }
