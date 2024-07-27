@@ -35,8 +35,6 @@ public class Sections {
     }
 
     void addSection(Section newSection) {
-        validateSectionDistance(newSection);
-
         if (sections.isEmpty()) {
             sections.add(newSection);
             return;
@@ -91,20 +89,12 @@ public class Sections {
         }
     }
 
-    private void validateSectionDistance(Section newSection) {
-        double newDistance = newSection.getDistance();
-        if (newDistance <= 0) {
-            throw new InvalidSectionException("구간 거리는 0보다 커야 합니다.");
-        }
-        // 여기에 필요한 경우 추가적인 거리 검증 로직을 구현할 수 있습니다.
-    }
-
     private void updateSection(Section existingSection, Section newSection, boolean isUpStationConnected) {
         Station newUpStation = newSection.getUpStation();
         Station newDownStation = newSection.getDownStation();
-        Integer newDistance = newSection.getDistance();
+        SectionDistance newSectionDistance = newSection.getSectionDistance();
 
-        if (existingSection.getDistance() <= newDistance) {
+        if (existingSection.getSectionDistance().isLessThanOrEqualTo(newSectionDistance)) {
             throw new InvalidSectionException("기존 구간의 길이가 새 구간보다 길어야 합니다.");
         }
 
@@ -115,7 +105,7 @@ public class Sections {
                 existingSection.getLine(),
                 updatedUpStation,
                 updatedDownStation,
-                existingSection.getDistance() - newDistance
+                existingSection.getSectionDistance().minus(newSectionDistance)
         );
 
         sections.add(newSection);
@@ -148,7 +138,7 @@ public class Sections {
                 previousSection.getLine(),
                 previousSection.getUpStation(),
                 nextSection.getDownStation(),
-                previousSection.getDistance() + nextSection.getDistance()
+                previousSection.getSectionDistance().plus(nextSection.getSectionDistance())
         );
         sections.remove(previousSection);
         sections.remove(nextSection);

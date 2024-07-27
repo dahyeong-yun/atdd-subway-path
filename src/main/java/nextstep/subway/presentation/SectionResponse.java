@@ -22,8 +22,7 @@ public class SectionResponse {
                 section.getId(),
                 section.getUpStation().getId(),
                 section.getDownStation().getId(),
-                section.getDistance()
+                section.getSectionDistance().getDistance() // TODO 명칭 혼동이 있음
         );
     }
-
 }

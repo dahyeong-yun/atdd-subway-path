@@ -36,7 +36,7 @@ public class Line {
                 createdLine,
                 upStation,
                 downStation,
-                lineRequest.getDistance()
+                new SectionDistance(lineRequest.getDistance())
         ));
 
         return createdLine;

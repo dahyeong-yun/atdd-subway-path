@@ -1,10 +1,7 @@
 package nextstep.subway.application;
 
 import lombok.RequiredArgsConstructor;
-import nextstep.subway.domain.Line;
-import nextstep.subway.domain.Section;
-import nextstep.subway.domain.Sections;
-import nextstep.subway.domain.Station;
+import nextstep.subway.domain.*;
 import nextstep.subway.exception.LineNotFoundException;
 import nextstep.subway.exception.StationNotFoundException;
 import nextstep.subway.infrastructure.LineRepository;
@@ -35,7 +32,7 @@ public class SectionService {
                 line,
                 upStation,
                 downStation,
-                sectionRequest.getDistance()
+                new SectionDistance(sectionRequest.getDistance())
         );
         line.addSection(requestSection);
 

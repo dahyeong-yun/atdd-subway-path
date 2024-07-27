@@ -26,20 +26,21 @@ public class Section {
     @JoinColumn(name = "down_station_id")
     private Station downStation;
 
-    private Integer distance;
+    @Embedded
+    private SectionDistance sectionDistance;
 
-    private Section(Line line, Station upStation, Station downStation, int distance) {
+    private Section(Line line, Station upStation, Station downStation, SectionDistance sectionDistance) {
         this.line = line;
         this.upStation = upStation;
         this.downStation = downStation;
-        this.distance = distance;
+        this.sectionDistance = sectionDistance;
     }
 
-    public static Section createSection(Line line, Station upStation, Station downStation, Integer distance) {
+    public static Section createSection(Line line, Station upStation, Station downStation, SectionDistance sectionDistance) {
         assert line != null;
         assert upStation != null;
         assert downStation != null;
 
-        return new Section(line, upStation, downStation, distance);
+        return new Section(line, upStation, downStation, sectionDistance);
     }
 }

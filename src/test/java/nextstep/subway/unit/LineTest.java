@@ -1,9 +1,6 @@
 package nextstep.subway.unit;
 
-import nextstep.subway.domain.Line;
-import nextstep.subway.domain.Section;
-import nextstep.subway.domain.Sections;
-import nextstep.subway.domain.Station;
+import nextstep.subway.domain.*;
 import nextstep.subway.exception.InvalidSectionException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +33,7 @@ class LineTest {
                 신분당선,
                 강남역,
                 신논현역,
-                3
+                new SectionDistance(3)
         );
     }
 
@@ -49,7 +46,7 @@ class LineTest {
                 신분당선,
                 신논현역,
                 신사역,
-                1
+                new SectionDistance(1)
         );
 
         // when
@@ -84,7 +81,7 @@ class LineTest {
                 신분당선,
                 강남역,
                 신사역,
-                1
+                new SectionDistance(1)
         );
 
         // when
@@ -106,7 +103,7 @@ class LineTest {
                 신분당선,
                 판교역,
                 정자역,
-                1
+                new SectionDistance(1)
         );
 
         // when & then
@@ -124,7 +121,7 @@ class LineTest {
                 신분당선,
                 강남역,
                 신논현역,
-                1
+                new SectionDistance(1)
         );
 
         // when & then
@@ -134,18 +131,17 @@ class LineTest {
     }
 
     @Test
-    @DisplayName("거리가 0인 구간 추가 시도")
+    @DisplayName("거리가 0인 구간 생성 불가")
     void addSectionWithZeroDistance() {
-        // given
-        Section zeroDistanceSection = Section.createSection(
-                신분당선,
-                강남역,
-                신논현역,
-                0
-        );
+
         // when & then
         assertThatThrownBy(() -> {
-            신분당선.addSection(zeroDistanceSection);
+            Section.createSection(
+                    신분당선,
+                    강남역,
+                    신논현역,
+                    new SectionDistance(0)
+            );
         })
                 .isInstanceOf(InvalidSectionException.class)
                 .hasMessage("구간 거리는 0보다 커야 합니다.");
@@ -160,7 +156,7 @@ class LineTest {
                 신분당선,
                 강남역,
                 판교역,
-                25
+                new SectionDistance(25)
         );
 
         // when & then
@@ -204,7 +200,7 @@ class LineTest {
     void deleteMiddleStation() {
         // given
         신분당선.addSection(새로운구간);
-        신분당선.addSection(Section.createSection(신분당선, 신논현역, 신사역, 2));
+        신분당선.addSection(Section.createSection(신분당선, 신논현역, 신사역, new SectionDistance(2)));
 
         // when
         신분당선.deleteStation(신논현역);
@@ -220,7 +216,7 @@ class LineTest {
     void deleteFirstStation() {
         // given
         신분당선.addSection(새로운구간);
-        신분당선.addSection(Section.createSection(신분당선, 신논현역, 신사역, 2));
+        신분당선.addSection(Section.createSection(신분당선, 신논현역, 신사역, new SectionDistance(2)));
 
         // when
         신분당선.deleteStation(강남역);
@@ -236,7 +232,7 @@ class LineTest {
     void deleteLastStation() {
         // given
         신분당선.addSection(새로운구간);
-        신분당선.addSection(Section.createSection(신분당선, 신논현역, 신사역, 2));
+        신분당선.addSection(Section.createSection(신분당선, 신논현역, 신사역, new SectionDistance(2)));
 
         // when
         신분당선.deleteStation(신사역);
