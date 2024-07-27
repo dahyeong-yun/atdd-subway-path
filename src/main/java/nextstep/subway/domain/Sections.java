@@ -120,7 +120,8 @@ public class Sections {
                 .findFirst()
                 .ifPresentOrElse(
                         (section) -> updateSection(section, newSection, true),
-                        () -> sections.add(newSection));
+                        () -> sections.add(newSection)
+                );
     }
 
     private void addSectionWithConnectedDownStation(Section newSection) {
@@ -130,7 +131,8 @@ public class Sections {
                 .findFirst()
                 .ifPresentOrElse(
                         (section) -> updateSection(section, newSection, false),
-                        () -> sections.add(0, newSection));
+                        () -> sections.add(0, newSection)
+                );
     }
 
     private void mergeSections(Section previousSection, Section nextSection) {
