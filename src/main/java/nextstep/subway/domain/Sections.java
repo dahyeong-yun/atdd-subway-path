@@ -52,39 +52,6 @@ public class Sections {
         addSectionWithConnectedDownStation(newSection);
     }
 
-    private void validateStationConnections(boolean isUpStationConnected, boolean isDownStationConnected) {
-        if (!isUpStationConnected && !isDownStationConnected) {
-            throw new InvalidSectionException("새로운 구간의 양쪽 역 모두 기존 노선에 연결되어 있지 않습니다.");
-        }
-        if (isUpStationConnected && isDownStationConnected) {
-            throw new InvalidSectionException("새로운 구간이 기존 구간을 완전히 포함합니다.");
-        }
-    }
-
-    private void updateSection(Section existingSection, Section newSection, boolean isUpStationConnected) {
-        Station newUpStation = newSection.getUpStation();
-        Station newDownStation = newSection.getDownStation();
-        SectionDistance newSectionDistance = newSection.getSectionDistance();
-
-        if (existingSection.getSectionDistance().isLessThanOrEqualTo(newSectionDistance)) {
-            throw new InvalidSectionException("기존 구간의 길이가 새 구간보다 길어야 합니다.");
-        }
-
-        Station updatedUpStation = isUpStationConnected ? newDownStation : existingSection.getUpStation();
-        Station updatedDownStation = isUpStationConnected ? existingSection.getDownStation() : newUpStation;
-
-        Section updatedSection = Section.createSection(
-                existingSection.getLine(),
-                updatedUpStation,
-                updatedDownStation,
-                existingSection.getSectionDistance().minus(newSectionDistance).getDistance()
-        );
-
-        sections.add(newSection);
-        sections.add(updatedSection);
-        sections.remove(existingSection);
-    }
-
     private void addSectionWithConnectedUpStation(Section newSection) {
         Station newUpStation = newSection.getUpStation();
         sections.stream()
@@ -105,6 +72,58 @@ public class Sections {
                         (section) -> updateSection(section, newSection, false),
                         () -> sections.add(0, newSection)
                 );
+    }
+
+    private void updateSection(Section existingSection, Section newSection, boolean isUpStationConnected) {
+        validateSectionDistance(existingSection, newSection);
+
+        Section updatedSection = createUpdatedSection(existingSection, newSection, isUpStationConnected);
+
+        sections.add(newSection);
+        sections.add(updatedSection);
+        sections.remove(existingSection);
+    }
+
+    private void validateStationConnections(boolean isUpStationConnected, boolean isDownStationConnected) {
+        if (!isUpStationConnected && !isDownStationConnected) {
+            throw new InvalidSectionException("새로운 구간의 양쪽 역 모두 기존 노선에 연결되어 있지 않습니다.");
+        }
+        if (isUpStationConnected && isDownStationConnected) {
+            throw new InvalidSectionException("새로운 구간이 기존 구간을 완전히 포함합니다.");
+        }
+    }
+
+    private void validateSectionDistance(Section existingSection, Section newSection) {
+        if (existingSection.getSectionDistance().isLessThanOrEqualTo(newSection.getSectionDistance())) {
+            throw new InvalidSectionException("기존 구간의 길이가 새 구간보다 길어야 합니다.");
+        }
+    }
+
+    private Section createUpdatedSection(Section existingSection, Section newSection, boolean isUpStationConnected) {
+        Station updatedUpStation = getUpdatedUpStation(existingSection, newSection, isUpStationConnected);
+        Station updatedDownStation = getUpdatedDownStation(existingSection, newSection, isUpStationConnected);
+        int updatedDistance = existingSection.getSectionDistance().minus(newSection.getSectionDistance()).getDistance();
+
+        return Section.createSection(
+                existingSection.getLine(),
+                updatedUpStation,
+                updatedDownStation,
+                updatedDistance
+        );
+    }
+
+    private Station getUpdatedUpStation(Section existingSection, Section newSection, boolean isUpStationConnected) {
+        if (isUpStationConnected) {
+            return newSection.getDownStation();
+        }
+        return existingSection.getUpStation();
+    }
+
+    private Station getUpdatedDownStation(Section existingSection, Section newSection, boolean isUpStationConnected) {
+        if (isUpStationConnected) {
+            return existingSection.getDownStation();
+        }
+        return newSection.getUpStation();
     }
 
     void deleteStation(Station station) {
