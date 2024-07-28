@@ -106,7 +106,7 @@ public class Sections {
                 existingSection.getLine(),
                 updatedUpStation,
                 updatedDownStation,
-                existingSection.getSectionDistance().minus(newSectionDistance)
+                existingSection.getSectionDistance().minus(newSectionDistance).getDistance()
         );
 
         sections.add(newSection);
@@ -141,7 +141,7 @@ public class Sections {
                 previousSection.getLine(),
                 previousSection.getUpStation(),
                 nextSection.getDownStation(),
-                previousSection.getSectionDistance().plus(nextSection.getSectionDistance())
+                previousSection.getSectionDistance().plus(nextSection.getSectionDistance()).getDistance()
         );
         sections.remove(previousSection);
         sections.remove(nextSection);

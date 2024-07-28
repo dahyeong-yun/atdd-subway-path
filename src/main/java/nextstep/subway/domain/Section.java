@@ -29,18 +29,18 @@ public class Section {
     @Embedded
     private SectionDistance sectionDistance;
 
-    private Section(Line line, Station upStation, Station downStation, SectionDistance sectionDistance) {
+    private Section(Line line, Station upStation, Station downStation, int distance) {
         this.line = line;
         this.upStation = upStation;
         this.downStation = downStation;
-        this.sectionDistance = sectionDistance;
+        this.sectionDistance = new SectionDistance(distance);
     }
 
-    public static Section createSection(Line line, Station upStation, Station downStation, SectionDistance sectionDistance) {
+    public static Section createSection(Line line, Station upStation, Station downStation, int distance) {
         assert line != null;
         assert upStation != null;
         assert downStation != null;
 
-        return new Section(line, upStation, downStation, sectionDistance);
+        return new Section(line, upStation, downStation, distance);
     }
 }

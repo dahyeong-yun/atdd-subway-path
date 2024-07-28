@@ -32,7 +32,7 @@ public class SectionService {
                 line,
                 upStation,
                 downStation,
-                new SectionDistance(sectionRequest.getDistance())
+                sectionRequest.getDistance()
         );
         line.addSection(requestSection);
 

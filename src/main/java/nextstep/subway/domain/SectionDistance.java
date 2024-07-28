@@ -20,7 +20,6 @@ public class SectionDistance {
 
     public SectionDistance minus(SectionDistance subtrahend) {
         Integer result = this.distance - subtrahend.distance;
-        validatePositiveDistance(result);
         return new SectionDistance(result);
     }
 
