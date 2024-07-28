@@ -11,26 +11,26 @@ import javax.persistence.Embeddable;
 @Getter
 @Embeddable
 public class SectionDistance {
-    private Integer distance;
+    private int distance;
 
-    public SectionDistance(Integer distance) {
+    public SectionDistance(int distance) {
         validatePositiveDistance(distance);
         this.distance = distance;
     }
 
-    private void validatePositiveDistance(Integer distance) {
+    private void validatePositiveDistance(int distance) {
         if (distance <= 0) {
             throw new InvalidSectionException("구간 거리는 0보다 커야 합니다.");
         }
     }
 
     public SectionDistance minus(SectionDistance subtrahend) {
-        Integer result = this.distance - subtrahend.distance;
+        int result = this.distance - subtrahend.distance;
         return new SectionDistance(result);
     }
 
     public SectionDistance plus(SectionDistance addend) {
-        Integer result = this.distance + addend.distance;
+        int result = this.distance + addend.distance;
         return new SectionDistance(result);  // 생성자에서 이미 양수 검증을 수행하므로 여기서는 별도 검증 불필요
     }
 

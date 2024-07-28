@@ -14,7 +14,7 @@ public class SectionResponse {
     private final Long upStationId;
     @Getter
     private final Long downStationId;
-    private final Integer distance;
+    private final int distance;
 
     public static SectionResponse of(Section section) {
         return new SectionResponse(

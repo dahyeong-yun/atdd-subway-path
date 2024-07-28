@@ -27,6 +27,7 @@ public class Section {
     private Station downStation;
 
     @Embedded
+    @Column(nullable = false)
     private SectionDistance sectionDistance;
 
     private Section(Line line, Station upStation, Station downStation, int distance) {
