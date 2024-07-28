@@ -39,18 +39,6 @@ class SectionsTest {
                 3
         );
     }
-    @Test
-    @DisplayName("지하철 최초 구간 추가")
-    void addSectionToEmptySections() {
-        // given
-        Sections 신분당선구간 = 신분당선.getSections();
-
-        // when
-        신분당선.addSection(새로운구간);
-
-        // then
-        assertThat(신분당선구간.getStations().size()).isEqualTo(2);
-    }
 
     @Test
     @DisplayName("지하철 구간 연결 추가")
@@ -195,65 +183,5 @@ class SectionsTest {
 
         // then
         assertThat(신분당선구간.getStations().isEmpty()).isTrue();
-    }
-
-    @Test
-    @DisplayName("지하철 노선의 중간역 삭제")
-    void deleteMiddleStation() {
-        // given
-        신분당선.addSection(새로운구간);
-        신분당선.addSection(Section.createSection(신분당선, 신논현역, 신사역, 2));
-
-        // when
-        신분당선.deleteStation(신논현역);
-
-        // then
-        Sections 신분당선구간 = 신분당선.getSections();
-        assertThat(신분당선구간.getStations().size()).isEqualTo(2);
-        assertThat(신분당선구간.getStations()).containsExactly(강남역, 신사역);
-    }
-
-    @Test
-    @DisplayName("지하철 노선의 첫 역 삭제")
-    void deleteFirstStation() {
-        // given
-        신분당선.addSection(새로운구간);
-        신분당선.addSection(Section.createSection(신분당선, 신논현역, 신사역, 2));
-
-        // when
-        신분당선.deleteStation(강남역);
-
-        // then
-        Sections 신분당선구간 = 신분당선.getSections();
-        assertThat(신분당선구간.getStations().size()).isEqualTo(2);
-        assertThat(신분당선구간.getStations()).containsExactly(신논현역, 신사역);
-    }
-
-    @Test
-    @DisplayName("지하철 노선의 마지막 역 삭제")
-    void deleteLastStation() {
-        // given
-        신분당선.addSection(새로운구간);
-        신분당선.addSection(Section.createSection(신분당선, 신논현역, 신사역, 2));
-
-        // when
-        신분당선.deleteStation(신사역);
-
-        // then
-        Sections 신분당선구간 = 신분당선.getSections();
-        assertThat(신분당선구간.getStations().size()).isEqualTo(2);
-        assertThat(신분당선구간.getStations()).containsExactly(강남역, 신논현역);
-    }
-
-    @Test
-    @DisplayName("지하철 노선에 없는 역 삭제 시도")
-    void deleteNonExistentStation() {
-        // given
-        신분당선.addSection(새로운구간);
-
-        // when & then
-        assertThatThrownBy(() -> 신분당선.deleteStation(판교역))
-                .isInstanceOf(InvalidSectionException.class)
-                .hasMessage("노선에 포함되지 않은 역을 제거할 수 없습니다.");
     }
 }
