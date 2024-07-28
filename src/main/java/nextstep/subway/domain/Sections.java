@@ -7,6 +7,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -56,28 +57,28 @@ public class Sections {
     }
 
     void deleteStation(Station station) {
-        List<Station> stations = this.getStations();
-        if (!stations.contains(station)) {
+        if (!this.getStations().contains(station)) {
             throw new InvalidSectionException("노선에 포함되지 않은 역을 제거할 수 없습니다.");
         }
-        Section previousSection = findSectionByDownStation(station);
-        Section nextSection = findSectionByUpStation(station);
 
-        if (previousSection == null && nextSection == null) {
+        Optional<Section> previousSection = findSectionByDownStation(station);
+        Optional<Section> nextSection = findSectionByUpStation(station);
+
+        if (previousSection.isEmpty() && nextSection.isEmpty()) {
             throw new InvalidSectionException("삭제할 수 있는 지하철 구간이 없습니다.");
         }
 
-        if (previousSection != null && nextSection == null) {
-            sections.remove(previousSection);
+        if (previousSection.isPresent() && nextSection.isEmpty()) {
+            sections.remove(previousSection.get());
             return;
         }
 
-        if (previousSection == null) {
-            sections.remove(nextSection);
+        if (previousSection.isEmpty()) {
+            sections.remove(nextSection.get());
             return;
         }
 
-        mergeSections(previousSection, nextSection);
+        mergeSections(previousSection.get(), nextSection.get());
     }
 
     private void validateStationConnections(boolean isUpStationConnected, boolean isDownStationConnected) {
@@ -147,17 +148,15 @@ public class Sections {
         sections.add(mergedSection);
     }
 
-    private Section findSectionByDownStation(Station station) {
+    private Optional<Section> findSectionByDownStation(Station station) {
         return sections.stream()
                 .filter(section -> section.getDownStation().equals(station))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
-    private Section findSectionByUpStation(Station station) {
+    private Optional<Section> findSectionByUpStation(Station station) {
         return sections.stream()
                 .filter(section -> section.getUpStation().equals(station))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 }
