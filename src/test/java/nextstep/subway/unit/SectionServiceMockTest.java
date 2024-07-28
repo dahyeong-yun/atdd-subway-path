@@ -62,6 +62,6 @@ public class SectionServiceMockTest {
         sectionService.addSection(신분당선_ID, new SectionRequest(신논현역_ID, 신사역_ID, 5));
 
         // then
-        assertThat(신분당선.getSections().size()).isEqualTo(2);
+        assertThat(신분당선.getSections().getStations().size()).isEqualTo(3);
     }
 }

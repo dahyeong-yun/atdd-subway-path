@@ -1,6 +1,9 @@
 package nextstep.subway.unit;
 
-import nextstep.subway.domain.*;
+import nextstep.subway.domain.Line;
+import nextstep.subway.domain.Section;
+import nextstep.subway.domain.Sections;
+import nextstep.subway.domain.Station;
 import nextstep.subway.exception.InvalidSectionException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,7 +57,7 @@ class LineTest {
         Sections 신분당선구간 = 신분당선.getSections();
 
         // then
-        assertThat(신분당선구간.size()).isEqualTo(2);
+        assertThat(신분당선구간.getStations().size()).isEqualTo(3);
     }
 
     @Test
@@ -67,7 +70,7 @@ class LineTest {
         신분당선.addSection(새로운구간);
 
         // then
-        assertThat(신분당선구간.size()).isEqualTo(1);
+        assertThat(신분당선구간.getStations().size()).isEqualTo(2);
     }
 
     @Test
@@ -88,7 +91,7 @@ class LineTest {
         신분당선.addSection(중간구간);
 
         // then
-        assertThat(신분당선구간.size()).isEqualTo(2);
+        assertThat(신분당선구간.getStations().size()).isEqualTo(3);
         List<Station> stations = 신분당선구간.getStations();
         Assertions.assertThat(stations).containsExactlyInAnyOrder(강남역, 신사역, 신논현역);
     }
@@ -192,7 +195,7 @@ class LineTest {
         신분당선구간.deleteLastSection();
 
         // then
-        assertThat(신분당선구간.size()).isEqualTo(0);
+        assertThat(신분당선구간.getStations().isEmpty()).isTrue();
     }
 
     @Test
@@ -207,7 +210,7 @@ class LineTest {
 
         // then
         Sections 신분당선구간 = 신분당선.getSections();
-        assertThat(신분당선구간.size()).isEqualTo(1);
+        assertThat(신분당선구간.getStations().size()).isEqualTo(2);
         assertThat(신분당선구간.getStations()).containsExactly(강남역, 신사역);
     }
 
@@ -223,7 +226,7 @@ class LineTest {
 
         // then
         Sections 신분당선구간 = 신분당선.getSections();
-        assertThat(신분당선구간.size()).isEqualTo(1);
+        assertThat(신분당선구간.getStations().size()).isEqualTo(2);
         assertThat(신분당선구간.getStations()).containsExactly(신논현역, 신사역);
     }
 
@@ -232,14 +235,14 @@ class LineTest {
     void deleteLastStation() {
         // given
         신분당선.addSection(새로운구간);
-        신분당선.addSection(Section.createSection(신분당선, 신논현역, 신사역,2));
+        신분당선.addSection(Section.createSection(신분당선, 신논현역, 신사역, 2));
 
         // when
         신분당선.deleteStation(신사역);
 
         // then
         Sections 신분당선구간 = 신분당선.getSections();
-        assertThat(신분당선구간.size()).isEqualTo(1);
+        assertThat(신분당선구간.getStations().size()).isEqualTo(2);
         assertThat(신분당선구간.getStations()).containsExactly(강남역, 신논현역);
     }
 

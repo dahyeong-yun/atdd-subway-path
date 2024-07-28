@@ -16,10 +16,6 @@ public class Sections {
     @OneToMany(mappedBy = "line", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Section> sections = new ArrayList<>();
 
-    public int size() { // TODO 오로지 테스트를 위한 메서드 이므로 삭제를 고려
-        return sections.size();
-    }
-
     public List<Station> getStations() {
         return sections.stream()
                 .flatMap(section -> Stream.of(section.getUpStation(), section.getDownStation()))
