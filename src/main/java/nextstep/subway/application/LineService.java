@@ -59,7 +59,7 @@ public class LineService {
     }
 
     @Transactional
-    public void deleteStation(Long lineId, Long stationId) {
+    public void deleteStationFromLine(Long lineId, Long stationId) {
         Line line = findLineByIdOrThrow(lineId);
         Station station = findStationByIdOrThrow(stationId);
 
