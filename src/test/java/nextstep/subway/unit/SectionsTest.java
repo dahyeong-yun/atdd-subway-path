@@ -15,7 +15,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class LineTest {
+class SectionsTest {
     private Station 강남역;
     private Station 신논현역;
     private Station 신사역;
@@ -39,6 +39,18 @@ class LineTest {
                 3
         );
     }
+    @Test
+    @DisplayName("지하철 최초 구간 추가")
+    void addSectionToEmptySections() {
+        // given
+        Sections 신분당선구간 = 신분당선.getSections();
+
+        // when
+        신분당선.addSection(새로운구간);
+
+        // then
+        assertThat(신분당선구간.getStations().size()).isEqualTo(2);
+    }
 
     @Test
     @DisplayName("지하철 구간 연결 추가")
@@ -58,19 +70,6 @@ class LineTest {
 
         // then
         assertThat(신분당선구간.getStations().size()).isEqualTo(3);
-    }
-
-    @Test
-    @DisplayName("지하철 최초 구간 추가")
-    void addSectionToEmptySections() {
-        // given
-        Sections 신분당선구간 = 신분당선.getSections();
-
-        // when
-        신분당선.addSection(새로운구간);
-
-        // then
-        assertThat(신분당선구간.getStations().size()).isEqualTo(2);
     }
 
     @Test
@@ -97,7 +96,7 @@ class LineTest {
     }
 
     @Test
-    @DisplayName("지하철 연결되지 않은 구간 추가 시도 테스트")
+    @DisplayName("지하철 연결되지 않은 구간 추가 시도")
     void addSectionWithNoConnectedStations() {
         // given
         신분당선.addSection(새로운구간);
@@ -116,7 +115,7 @@ class LineTest {
     }
 
     @Test
-    @DisplayName("지하철 양쪽 역이 모두 연결된 구간 추가 시도 테스트")
+    @DisplayName("지하철 양쪽 역이 모두 연결된 구간 추가 시도")
     void addSectionWithBothConnectedStations() {
         // given
         신분당선.addSection(새로운구간);
