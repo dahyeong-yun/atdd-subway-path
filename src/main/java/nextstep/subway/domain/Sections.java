@@ -56,31 +56,6 @@ public class Sections {
         addSectionWithConnectedDownStation(newSection);
     }
 
-    void deleteStation(Station station) {
-        if (!this.getStations().contains(station)) {
-            throw new InvalidSectionException("노선에 포함되지 않은 역을 제거할 수 없습니다.");
-        }
-
-        Optional<Section> previousSection = findSectionByDownStation(station);
-        Optional<Section> nextSection = findSectionByUpStation(station);
-
-        if (previousSection.isEmpty() && nextSection.isEmpty()) {
-            throw new InvalidSectionException("삭제할 수 있는 지하철 구간이 없습니다.");
-        }
-
-        if (previousSection.isPresent() && nextSection.isEmpty()) {
-            sections.remove(previousSection.get());
-            return;
-        }
-
-        if (previousSection.isEmpty()) {
-            sections.remove(nextSection.get());
-            return;
-        }
-
-        mergeSections(previousSection.get(), nextSection.get());
-    }
-
     private void validateStationConnections(boolean isUpStationConnected, boolean isDownStationConnected) {
         if (!isUpStationConnected && !isDownStationConnected) {
             throw new InvalidSectionException("새로운 구간의 양쪽 역 모두 기존 노선에 연결되어 있지 않습니다.");
@@ -136,16 +111,29 @@ public class Sections {
                 );
     }
 
-    private void mergeSections(Section previousSection, Section nextSection) {
-        Section mergedSection = Section.createSection(
-                previousSection.getLine(),
-                previousSection.getUpStation(),
-                nextSection.getDownStation(),
-                previousSection.getSectionDistance().plus(nextSection.getSectionDistance()).getDistance()
-        );
-        sections.remove(previousSection);
-        sections.remove(nextSection);
-        sections.add(mergedSection);
+    void deleteStation(Station station) {
+        if (!this.getStations().contains(station)) {
+            throw new InvalidSectionException("노선에 포함되지 않은 역을 제거할 수 없습니다.");
+        }
+
+        Optional<Section> previousSection = findSectionByDownStation(station);
+        Optional<Section> nextSection = findSectionByUpStation(station);
+
+        if (previousSection.isEmpty() && nextSection.isEmpty()) {
+            throw new InvalidSectionException("삭제할 수 있는 지하철 구간이 없습니다.");
+        }
+
+        if (previousSection.isPresent() && nextSection.isEmpty()) {
+            sections.remove(previousSection.get());
+            return;
+        }
+
+        if (previousSection.isEmpty()) {
+            sections.remove(nextSection.get());
+            return;
+        }
+
+        mergeSections(previousSection.get(), nextSection.get());
     }
 
     private Optional<Section> findSectionByDownStation(Station station) {
@@ -158,5 +146,17 @@ public class Sections {
         return sections.stream()
                 .filter(section -> section.getUpStation().equals(station))
                 .findFirst();
+    }
+
+    private void mergeSections(Section previousSection, Section nextSection) {
+        Section mergedSection = Section.createSection(
+                previousSection.getLine(),
+                previousSection.getUpStation(),
+                nextSection.getDownStation(),
+                previousSection.getSectionDistance().plus(nextSection.getSectionDistance()).getDistance()
+        );
+        sections.remove(previousSection);
+        sections.remove(nextSection);
+        sections.add(mergedSection);
     }
 }

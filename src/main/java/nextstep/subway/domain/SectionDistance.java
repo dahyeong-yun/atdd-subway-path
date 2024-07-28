@@ -18,6 +18,12 @@ public class SectionDistance {
         this.distance = distance;
     }
 
+    private void validatePositiveDistance(Integer distance) {
+        if (distance <= 0) {
+            throw new InvalidSectionException("구간 거리는 0보다 커야 합니다.");
+        }
+    }
+
     public SectionDistance minus(SectionDistance subtrahend) {
         Integer result = this.distance - subtrahend.distance;
         return new SectionDistance(result);
@@ -30,11 +36,5 @@ public class SectionDistance {
 
     public boolean isLessThanOrEqualTo(SectionDistance compareSectionDistance) {
         return this.distance <= compareSectionDistance.distance;
-    }
-
-    private void validatePositiveDistance(Integer distance) {
-        if (distance <= 0) {
-            throw new InvalidSectionException("구간 거리는 0보다 커야 합니다.");
-        }
     }
 }
