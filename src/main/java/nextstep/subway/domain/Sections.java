@@ -24,11 +24,10 @@ public class Sections {
     }
 
     public void deleteLastSection() {
-        if (!sections.isEmpty()) {
-            sections.remove(sections.size() - 1);
-            return;
+        if (sections.isEmpty()) {
+            throw new InvalidSectionException("삭제할 수 있는 지하철 구간이 없습니다.");
         }
-        throw new InvalidSectionException("삭제할 수 있는 지하철 구간이 없습니다.");
+        sections.remove(sections.size() - 1);
     }
 
     void addSection(Section newSection) {
