@@ -5,6 +5,7 @@ import nextstep.subway.domain.Section;
 import nextstep.subway.domain.Sections;
 import nextstep.subway.domain.Station;
 import nextstep.subway.exception.InvalidSectionException;
+import nextstep.subway.presentation.LineRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ class LineTest {
     private Station 신논현역;
     private Station 신사역;
     private Station 판교역;
+    private Station 정자역;
     private Line 신분당선;
     private Section 새로운구간;
 
@@ -26,6 +28,7 @@ class LineTest {
         신논현역 = new Station("신논현역");
         신사역 = new Station("신사역");
         판교역 = new Station("판교역");
+        정자역 = new Station("정자역");
         신분당선 = new Line("신분당선", "bg-red-600");
         새로운구간 = Section.createSection(
                 신분당선,
@@ -36,7 +39,50 @@ class LineTest {
     }
 
     @Test
-    @DisplayName("지하철 최초 구간 추가")
+    @DisplayName("지하철 노선 생성")
+    void createLineWithStations() {
+        // given
+        LineRequest lineRequest = new LineRequest("신분당선", "bg-red-600", 10L,9L,9);
+
+        // when
+        Line line = Line.createLine(강남역, 판교역, lineRequest);
+
+        // then
+        assertThat(line.getName()).isEqualTo("신분당선");
+        assertThat(line.getColor()).isEqualTo("bg-red-600");
+        assertThat(line.getSections().getStations()).containsExactly(강남역, 판교역);
+    }
+
+    @Test
+    @DisplayName("지하철 노선 이름 변경")
+    void changeName() {
+        // given
+        Line line = new Line("신분당선", "bg-red-600");
+        String newName = "새로운 신분당선";
+
+        // when
+        line.changeName(newName);
+
+        // then
+        assertThat(line.getName()).isEqualTo(newName);
+    }
+
+    @Test
+    @DisplayName("지하철 노선 색상 변경")
+    void changeColor() {
+        // given
+        Line line = new Line("신분당선", "bg-red-600");
+        String newColor = "bg-blue-600";
+
+        // when
+        line.changeColor(newColor);
+
+        // then
+        assertThat(line.getColor()).isEqualTo(newColor);
+    }
+
+    @Test
+    @DisplayName("지하철 노선에 구간 최초 추가")
     void addSectionToEmptySections() {
         // given
         Sections 신분당선구간 = 신분당선.getSections();
