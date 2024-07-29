@@ -25,20 +25,26 @@ public class LineController {
         return ResponseEntity.ok().body(lineService.findAllLines());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<LineResponse> retrieveLines(@PathVariable Long id) {
-        return ResponseEntity.ok().body(lineService.findLineById(id));
+    @GetMapping("/{lineId}")
+    public ResponseEntity<LineResponse> retrieveLines(@PathVariable Long lineId) {
+        return ResponseEntity.ok().body(lineService.findLineById(lineId));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updateLine(@PathVariable Long id, @RequestBody LineUpdateRequest lineUpdateRequest) {
-        lineService.updateLine(id, lineUpdateRequest);
+    @PutMapping("/{lineId}")
+    public ResponseEntity<Void> updateLine(@PathVariable Long lineId, @RequestBody LineUpdateRequest lineUpdateRequest) {
+        lineService.updateLine(lineId, lineUpdateRequest);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteLine(@PathVariable Long id) {
-        lineService.deleteLine(id);
+    @DeleteMapping("/{lineId}")
+    public ResponseEntity<Void> deleteLine(@PathVariable Long lineId) {
+        lineService.deleteLine(lineId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{lineId}/stations/{stationId}")
+    public ResponseEntity<Void> deleteStationFromLine(@PathVariable Long lineId, @PathVariable Long stationId) {
+        lineService.deleteStationFromLine(lineId, stationId);
         return ResponseEntity.noContent().build();
     }
 }

@@ -26,16 +26,18 @@ public class Section {
     @JoinColumn(name = "down_station_id")
     private Station downStation;
 
-    private Integer distance;
+    @Embedded
+    @Column(nullable = false)
+    private SectionDistance sectionDistance;
 
     private Section(Line line, Station upStation, Station downStation, int distance) {
         this.line = line;
         this.upStation = upStation;
         this.downStation = downStation;
-        this.distance = distance;
+        this.sectionDistance = new SectionDistance(distance);
     }
 
-    public static Section createSection(Line line, Station upStation, Station downStation, Integer distance) {
+    public static Section createSection(Line line, Station upStation, Station downStation, int distance) {
         assert line != null;
         assert upStation != null;
         assert downStation != null;

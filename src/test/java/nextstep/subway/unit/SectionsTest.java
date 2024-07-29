@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class SectionsTest {
     private Station 강남역;
@@ -57,20 +57,7 @@ class SectionsTest {
         Sections 신분당선구간 = 신분당선.getSections();
 
         // then
-        assertThat(신분당선구간.size()).isEqualTo(2);
-    }
-
-    @Test
-    @DisplayName("지하철 최초 구간 추가")
-    void addSectionToEmptySections() {
-        // given
-        Sections 신분당선구간 = 신분당선.getSections();
-
-        // when
-        신분당선.addSection(새로운구간);
-
-        // then
-        assertThat(신분당선구간.size()).isEqualTo(1);
+        assertThat(신분당선구간.getStations().size()).isEqualTo(3);
     }
 
     @Test
@@ -91,13 +78,13 @@ class SectionsTest {
         신분당선.addSection(중간구간);
 
         // then
-        assertThat(신분당선구간.size()).isEqualTo(2);
+        assertThat(신분당선구간.getStations().size()).isEqualTo(3);
         List<Station> stations = 신분당선구간.getStations();
         Assertions.assertThat(stations).containsExactlyInAnyOrder(강남역, 신사역, 신논현역);
     }
 
     @Test
-    @DisplayName("지하철 연결되지 않은 구간 추가 시도 테스트")
+    @DisplayName("지하철 연결되지 않은 구간 추가 시도")
     void addSectionWithNoConnectedStations() {
         // given
         신분당선.addSection(새로운구간);
@@ -116,12 +103,10 @@ class SectionsTest {
     }
 
     @Test
-    @DisplayName("지하철 양쪽 역이 모두 연결된 구간 추가 시도 테스트")
+    @DisplayName("지하철 양쪽 역이 모두 연결된 구간 추가 시도")
     void addSectionWithBothConnectedStations() {
         // given
-        Sections 신분당선구간 = 신분당선.getSections();
         신분당선.addSection(새로운구간);
-
         Section 또다른구간 = Section.createSection(
                 신분당선,
                 강남역,
@@ -136,18 +121,17 @@ class SectionsTest {
     }
 
     @Test
-    @DisplayName("거리가 0인 구간 추가 시도")
+    @DisplayName("거리가 0인 구간 생성 불가")
     void addSectionWithZeroDistance() {
-        // given
-        Section zeroDistanceSection = Section.createSection(
-                신분당선,
-                강남역,
-                신논현역,
-                0
-        );
+
         // when & then
         assertThatThrownBy(() -> {
-            신분당선.addSection(zeroDistanceSection);
+            Section.createSection(
+                    신분당선,
+                    강남역,
+                    신논현역,
+                    0
+            );
         })
                 .isInstanceOf(InvalidSectionException.class)
                 .hasMessage("구간 거리는 0보다 커야 합니다.");
@@ -158,7 +142,6 @@ class SectionsTest {
     void addSectionWithInvalidDistance() {
         // given
         신분당선.addSection(새로운구간);
-
         Section invalidSection = Section.createSection(
                 신분당선,
                 강남역,
@@ -178,8 +161,8 @@ class SectionsTest {
     @DisplayName("지하철 구간 전체 역 조회")
     void getStations() {
         // given
-        Sections 신분당선구간 = 신분당선.getSections();
         신분당선.addSection(새로운구간);
+        Sections 신분당선구간 = 신분당선.getSections();
 
         // when
         List<Station> 신분당선전체역 = 신분당선구간.getStations();
@@ -199,6 +182,6 @@ class SectionsTest {
         신분당선구간.deleteLastSection();
 
         // then
-        assertThat(신분당선구간.size()).isEqualTo(0);
+        assertThat(신분당선구간.getStations().isEmpty()).isTrue();
     }
 }

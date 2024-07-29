@@ -56,6 +56,24 @@ public class SectionAcceptanceTest {
 
     /**
      * Given: 특장 지하철 구간 정보가 등록되어 있고,
+     * When: 관리자가 구간을 추가하면,
+     * Then: 해당 구간이 연결된다.
+     */
+    @Test
+    @DisplayName("기존에 구간이 있는 상태에서 새로운 구간을 추가할 수 있다.")
+    void addSection() {
+        // given
+
+        // when
+        SectionSteps.createSection(신분당선_ID, new SectionRequest(신논현역_ID, 신사역_ID, 15));
+        LineResponse findLine = LineSteps.findByLineId(신분당선_ID);
+
+        // then
+        assertThat(findLine.getStations().size()).isEqualTo(3);
+    }
+
+    /**
+     * Given: 특장 지하철 구간 정보가 등록되어 있고,
      * When: 관리자가 구간을 삭제하면,
      * Then: 해당 구간선이 삭제된다.
      */
@@ -76,21 +94,21 @@ public class SectionAcceptanceTest {
     }
 
     /**
-     * Given: 특장 지하철 구간 정보가 등록되어 있고,
-     * When: 관리자가 구간을 추가하면,
-     * Then: 해당 구간이 연결된다.
+     * Given: 여러 지하철 구간이 등록된 노선이 있을 때,
+     * When: 관리자가 특정 구간을 삭제하면,
+     * Then: 해당 구간이 삭제된다.
      */
     @Test
-    @DisplayName("기존에 구간이 있는 상태에서 새로운 구간을 추가할 수 있다.")
-    void addSection() {
+    @DisplayName("지하철 노선에 포함된 역을 위치에 상관없이 삭제할 수 있다.")
+    void deleteMiddleSection() {
         // given
-        SectionSteps.createSection(신분당선_ID, new SectionRequest(강남역_ID, 신사역_ID, 20));
+        SectionSteps.createSection(신분당선_ID, new SectionRequest(신논현역_ID, 신사역_ID, 15));
 
         // when
-        SectionSteps.createSection(신분당선_ID, new SectionRequest(신논현역_ID, 신사역_ID, 15));
+        LineSteps.deleteStation(신분당선_ID, 신논현역_ID);
         LineResponse findLine = LineSteps.findByLineId(신분당선_ID);
 
         // then
-        assertThat(findLine.getStations().size()).isEqualTo(3);
+        assertThat(findLine.getStations().size()).isEqualTo(2);
     }
 }

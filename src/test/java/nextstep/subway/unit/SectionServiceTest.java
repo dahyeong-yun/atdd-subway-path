@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -43,6 +43,6 @@ public class SectionServiceTest {
         // then
         Line findLine = lineRepository.findById(sectionResponse.getLineId()).orElseThrow(null);
         Sections sections = findLine.getSections();
-        assertThat(sections.size()).isEqualTo(1);
+        assertThat(sections.getStations().size()).isEqualTo(2);
     }
 }

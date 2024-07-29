@@ -10,5 +10,5 @@ public class LineRequest {
     private final String color;
     private final Long upStationId;
     private final Long downStationId;
-    private final Integer distance;
+    private final int distance;
 }

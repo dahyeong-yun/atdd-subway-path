@@ -3,6 +3,7 @@ package nextstep.study;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
 public class RestAssuredTest {
 
@@ -14,6 +15,6 @@ public class RestAssuredTest {
                 .when()
                     .get("https://google.com")
                 .then()
-                    .statusCode(200);
+                    .statusCode(HttpStatus.OK.value());
     }
 }

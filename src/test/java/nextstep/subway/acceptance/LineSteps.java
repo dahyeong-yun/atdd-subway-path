@@ -3,9 +3,9 @@ package nextstep.subway.acceptance;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.springframework.http.MediaType;
 import nextstep.subway.presentation.LineRequest;
 import nextstep.subway.presentation.LineResponse;
+import org.springframework.http.MediaType;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +50,12 @@ public class LineSteps {
     static void deleteLine(String lineId) {
         RestAssured.given().log().all()
                 .when().delete("/lines/" + lineId)
+                .then().log().all();
+    }
+
+    static void deleteStation(Long lineId, Long stationId) {
+        RestAssured.given().log().all()
+                .when().delete("/lines/" + lineId + "/stations/" + stationId)
                 .then().log().all();
     }
 }
