@@ -24,11 +24,11 @@ public class PathService {
         List<Section> allSection = sectionRepository.findAll();
         List<Station> allStations = stationRepository.findAll();
 
-        PathFinder pathFinder = PathFinder.createPath(new WeightedMultigraph<>(DefaultWeightedEdge.class), allSection, allStations);
+        PathFinder pathFinder = PathFinder.initializePathGraph(new WeightedMultigraph<>(DefaultWeightedEdge.class), allSection, allStations);
         PathResult pathResult = pathFinder.getShortestPath(source, target);
-        List<Station> orderedPathStations = pathResult.getOrderdStationsByPath(allStations);
+        List<Station> sortedStations = pathResult.getSortedStationsInPathOrder(allStations);
 
-        return PathResponse.of(orderedPathStations, pathResult.getTotalDistance());
+        return PathResponse.of(sortedStations, pathResult.getTotalDistance());
     }
 
 
