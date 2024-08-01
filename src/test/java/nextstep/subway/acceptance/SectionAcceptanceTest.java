@@ -51,7 +51,6 @@ public class SectionAcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
         assertThat(response.body().jsonPath().getLong("lineId")).isEqualTo(신분당선_ID);
         assertThat(response.body().jsonPath().getLong("downStationId")).isEqualTo(신논현역_ID);
-
     }
 
     /**
