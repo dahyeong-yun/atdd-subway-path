@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class StationSteps {
-    static ExtractableResponse<Response> createStation(String stationName) {
+    static ExtractableResponse<Response> 지하철역_생성(String stationName) {
         Map<String, String> params = new HashMap<>();
         params.put("name", stationName);
 

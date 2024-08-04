@@ -26,7 +26,7 @@ public class StationAcceptanceTest {
     @Test
     void createStation() {
         // when
-        ExtractableResponse<Response> response = StationSteps.createStation("강남역");
+        ExtractableResponse<Response> response = StationSteps.지하철역_생성("강남역");
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
@@ -45,8 +45,8 @@ public class StationAcceptanceTest {
     @Test
     void retrieveStation() {
         // given
-        StationSteps.createStation("강남역");
-        StationSteps.createStation("신논현역");
+        StationSteps.지하철역_생성("강남역");
+        StationSteps.지하철역_생성("신논현역");
 
         // when
         List<String> stationNames = findAllStationNames();
@@ -65,7 +65,7 @@ public class StationAcceptanceTest {
     @Test
     void deleteStation() {
         // given
-        ExtractableResponse<Response> response = StationSteps.createStation("신논현역");
+        ExtractableResponse<Response> response = StationSteps.지하철역_생성("신논현역");
         String createdStationId = response.body().jsonPath().getString("id");
 
         // when

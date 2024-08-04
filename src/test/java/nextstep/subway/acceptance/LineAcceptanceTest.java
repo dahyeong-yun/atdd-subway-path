@@ -26,9 +26,9 @@ public class LineAcceptanceTest {
 
     @BeforeEach
     void setup() {
-        강남역_ID = StationSteps.createStation("강남역").body().jsonPath().getLong("id");
-        신논현역_ID = StationSteps.createStation("신논현역").body().jsonPath().getLong("id");
-        신사역_ID = StationSteps.createStation("신사역").body().jsonPath().getLong("id");
+        강남역_ID = StationSteps.지하철역_생성("강남역").body().jsonPath().getLong("id");
+        신논현역_ID = StationSteps.지하철역_생성("신논현역").body().jsonPath().getLong("id");
+        신사역_ID = StationSteps.지하철역_생성("신사역").body().jsonPath().getLong("id");
         신분당선_request = new LineRequest("신분당선", "bg-red-600", 강남역_ID, 신논현역_ID, 10);
     }
 

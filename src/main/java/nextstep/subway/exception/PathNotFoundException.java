@@ -1,8 +1,10 @@
 package nextstep.subway.exception;
 
+import org.springframework.http.HttpStatus;
+
 public class PathNotFoundException extends SubwayException {
     public PathNotFoundException(Long sourceId, Long targetId) {
-        super(createMessage(sourceId, targetId));
+        super(createMessage(sourceId, targetId), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private static String createMessage(Long sourceId, Long targetId) {
