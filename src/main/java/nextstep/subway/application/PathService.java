@@ -1,10 +1,7 @@
 package nextstep.subway.application;
 
 import lombok.RequiredArgsConstructor;
-import nextstep.subway.domain.PathFinder;
-import nextstep.subway.domain.PathResult;
-import nextstep.subway.domain.Section;
-import nextstep.subway.domain.Station;
+import nextstep.subway.domain.*;
 import nextstep.subway.infrastructure.SectionRepository;
 import nextstep.subway.infrastructure.StationRepository;
 import nextstep.subway.presentation.PathResponse;
@@ -29,8 +26,7 @@ public class PathService {
         Station targetStation = stationRepository.findById(targetId)
                 .orElseThrow(() -> new IllegalArgumentException("도착역을 찾을 수 없습니다."));
 
-        WeightedMultigraph<Station, DefaultWeightedEdge> graph = new WeightedMultigraph<>(DefaultWeightedEdge.class);
-        PathFinder pathFinder = PathFinder.initializePathGraph(graph, allSections, allStations);
+        PathFinder pathFinder = PathFinderFactory.createPathFinder(allSections, allStations);
         PathResult pathResult = pathFinder.getShortestPath(sourceStation, targetStation);
 
         return PathResponse.of(pathResult.getPathStations(), pathResult.getTotalDistance());

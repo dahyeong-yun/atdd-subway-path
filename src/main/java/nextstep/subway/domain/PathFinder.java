@@ -1,5 +1,7 @@
 package nextstep.subway.domain;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import nextstep.subway.exception.PathNotFoundException;
 import org.jgrapht.GraphPath;
@@ -9,18 +11,10 @@ import org.jgrapht.graph.WeightedMultigraph;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+@Getter
 public class PathFinder {
     private final WeightedMultigraph<Station, DefaultWeightedEdge> graph;
-
-    public static PathFinder initializePathGraph(WeightedMultigraph<Station, DefaultWeightedEdge> graph, List<Section> allSection, List<Station> allStations) {
-        allStations.forEach(graph::addVertex);
-        allSection.forEach(section -> graph.setEdgeWeight(
-                graph.addEdge(section.getUpStation(), section.getDownStation()),
-                section.getSectionDistance().getDistance()
-        ));
-        return new PathFinder(graph);
-    }
 
     public PathResult getShortestPath(Station sourceStation, Station targetStation) {
         if (sourceStation.equals(targetStation)) {

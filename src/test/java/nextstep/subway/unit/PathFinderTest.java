@@ -61,7 +61,8 @@ class PathFinderTest {
 
         List<Section> allSections = Arrays.asList(section1, section2, section3, section4, section5);
 
-        pathFinder = PathFinder.initializePathGraph(graph, allSections, allStations);
+        pathFinder = PathFinderFactory.createPathFinder(allSections, allStations);
+        graph = pathFinder.getGraph();
     }
 
     @Test
