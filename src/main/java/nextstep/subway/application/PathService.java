@@ -20,16 +20,19 @@ public class PathService {
     private final SectionRepository sectionRepository;
     private final StationRepository stationRepository;
 
-    public PathResponse getPath(Long source, Long target) {
-        List<Section> allSection = sectionRepository.findAll();
+    public PathResponse getPath(Long sourceId, Long targetId) {
+        List<Section> allSections = sectionRepository.findAll();
         List<Station> allStations = stationRepository.findAll();
 
-        PathFinder pathFinder = PathFinder.initializePathGraph(new WeightedMultigraph<>(DefaultWeightedEdge.class), allSection, allStations);
-        PathResult pathResult = pathFinder.getShortestPath(source, target);
-        List<Station> sortedStations = pathResult.getSortedStationsInPathOrder(allStations);
+        Station sourceStation = stationRepository.findById(sourceId)
+                .orElseThrow(() -> new IllegalArgumentException("출발역을 찾을 수 없습니다."));
+        Station targetStation = stationRepository.findById(targetId)
+                .orElseThrow(() -> new IllegalArgumentException("도착역을 찾을 수 없습니다."));
 
-        return PathResponse.of(sortedStations, pathResult.getTotalDistance());
+        WeightedMultigraph<Station, DefaultWeightedEdge> graph = new WeightedMultigraph<>(DefaultWeightedEdge.class);
+        PathFinder pathFinder = PathFinder.initializePathGraph(graph, allSections, allStations);
+        PathResult pathResult = pathFinder.getShortestPath(sourceStation, targetStation);
+
+        return PathResponse.of(pathResult.getPathStations(), pathResult.getTotalDistance());
     }
-
-
 }

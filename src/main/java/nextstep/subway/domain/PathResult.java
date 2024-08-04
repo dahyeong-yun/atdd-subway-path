@@ -10,15 +10,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Getter
 public class PathResult {
-    private final List<Long> pathStationIds;
+    private final List<Station> pathStations;
     private final int totalDistance;
 
     public List<Station> getSortedStationsInPathOrder(List<Station> allStations) {
-        return pathStationIds.stream()
-                .map(id -> allStations.stream()
-                        .filter(station -> station.getId().equals(id))
+        return pathStations.stream()
+                .map(pathStation -> allStations.stream()
+                        .filter(station -> station.equals(pathStation))
                         .findFirst()
-                        .orElseThrow(() -> new StationNotFoundException(id)))
+                        .orElseThrow(() -> new StationNotFoundException(pathStation.getId())))
                 .collect(Collectors.toList());
     }
 }

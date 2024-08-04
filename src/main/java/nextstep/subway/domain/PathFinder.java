@@ -11,34 +11,31 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class PathFinder {
-    private final WeightedMultigraph<Long, DefaultWeightedEdge> graph;
+    private final WeightedMultigraph<Station, DefaultWeightedEdge> graph;
 
-    public static PathFinder initializePathGraph(WeightedMultigraph<Long, DefaultWeightedEdge> graph, List<Section> allSection, List<Station> allStations) {
-        allStations.forEach(station -> graph.addVertex(station.getId()));
+    public static PathFinder initializePathGraph(WeightedMultigraph<Station, DefaultWeightedEdge> graph, List<Section> allSection, List<Station> allStations) {
+        allStations.forEach(graph::addVertex);
         allSection.forEach(section -> graph.setEdgeWeight(
-                graph.addEdge(
-                        section.getUpStation().getId(),
-                        section.getDownStation().getId()
-                ),
+                graph.addEdge(section.getUpStation(), section.getDownStation()),
                 section.getSectionDistance().getDistance()
         ));
         return new PathFinder(graph);
     }
 
-    public PathResult getShortestPath(Long sourceStationId, Long targetStationId) {
-        if (sourceStationId.equals(targetStationId)) {
-            throw new PathNotFoundException(sourceStationId, targetStationId);
+    public PathResult getShortestPath(Station sourceStation, Station targetStation) {
+        if (sourceStation.equals(targetStation)) {
+            throw new PathNotFoundException(sourceStation.getId(), targetStation.getId());
         }
 
-        DijkstraShortestPath<Long, DefaultWeightedEdge> dijkstraAlg = new DijkstraShortestPath<>(graph);
-        GraphPath<Long, DefaultWeightedEdge> shortestPathStationIdsGraph = dijkstraAlg.getPath(sourceStationId, targetStationId);
+        DijkstraShortestPath<Station, DefaultWeightedEdge> dijkstraAlg = new DijkstraShortestPath<>(graph);
+        GraphPath<Station, DefaultWeightedEdge> shortestPathStationGraph = dijkstraAlg.getPath(sourceStation, targetStation);
 
-        if (shortestPathStationIdsGraph == null) {
-            throw new PathNotFoundException(sourceStationId, targetStationId);
+        if (shortestPathStationGraph == null) {
+            throw new PathNotFoundException(sourceStation.getId(), targetStation.getId());
         }
 
-        List<Long> path = shortestPathStationIdsGraph.getVertexList();
-        int totalDistance = (int) shortestPathStationIdsGraph.getWeight();
+        List<Station> path = shortestPathStationGraph.getVertexList();
+        int totalDistance = (int) shortestPathStationGraph.getWeight();
 
         return new PathResult(path, totalDistance);
     }
