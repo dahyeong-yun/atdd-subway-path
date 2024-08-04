@@ -26,7 +26,11 @@ public class PathFinder {
     }
 
     public PathResult getShortestPath(Long sourceStationId, Long targetStationId) {
-        DijkstraShortestPath<Long, DefaultWeightedEdge> dijkstraAlg = new DijkstraShortestPath<>(graph); // TODO 의존성을 제거할 필요가 있을지 확인 필요
+        if (sourceStationId.equals(targetStationId)) {
+            throw new PathNotFoundException(sourceStationId, targetStationId);
+        }
+
+        DijkstraShortestPath<Long, DefaultWeightedEdge> dijkstraAlg = new DijkstraShortestPath<>(graph);
         GraphPath<Long, DefaultWeightedEdge> shortestPathStationIdsGraph = dijkstraAlg.getPath(sourceStationId, targetStationId);
 
         if (shortestPathStationIdsGraph == null) {
